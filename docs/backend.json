@@ -1,0 +1,699 @@
+
+{
+  "entities": {
+    "UserAccount": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "UserAccount",
+      "type": "object",
+      "description": "Stores user account information, excluding authentication credentials.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the user account."
+        },
+        "name": {
+          "type": "string",
+          "description": "Full name of the user."
+        },
+        "username": {
+          "type": "string",
+          "description": "Unique username for the user."
+        },
+        "email": {
+          "type": "string",
+          "description": "Email address of the user.",
+          "format": "email"
+        },
+        "profileType": {
+          "type": "string",
+          "description": "Type of user profile (e.g., 'eventPoster', 'serviceProvider')."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp indicating when the user account was created.",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Timestamp indicating when the user account was last updated.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "username",
+        "email",
+        "profileType",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "Event": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Event",
+      "type": "object",
+      "description": "Stores information about events posted by users.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the event."
+        },
+        "userAccountId": {
+          "type": "string",
+          "description": "Reference to UserAccount. (Relationship: UserAccount 1:N Event)"
+        },
+        "eventType": {
+          "type": "string",
+          "description": "Type of event (e.g., wedding, birthday)."
+        },
+        "eventDate": {
+          "type": "string",
+          "description": "Date of the event.",
+          "format": "date-time"
+        },
+        "location": {
+          "type": "object",
+          "description": "Location of the event.",
+          "properties": {
+            "city": { "type": "string" },
+            "country": { "type": "string" },
+            "lat": { "type": "number" },
+            "lng": { "type": "number" }
+          },
+          "required": ["city", "country", "lat", "lng"]
+        },
+        "serviceNeeds": {
+          "type": "string",
+          "description": "Description of the services needed for the event."
+        },
+        "imageUrls": {
+          "type": "array",
+          "description": "Array of URLs pointing to inspirational images for the event.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp indicating when the event was created.",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Timestamp indicating when the event was last updated.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "userAccountId",
+        "eventType",
+        "eventDate",
+        "location",
+        "serviceNeeds",
+        "imageUrls",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "ServiceProviderProfile": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "ServiceProviderProfile",
+      "type": "object",
+      "description": "Stores information about service providers.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the service provider profile."
+        },
+        "userAccountId": {
+          "type": "string",
+          "description": "Reference to UserAccount. (Relationship: UserAccount 1:1 ServiceProviderProfile)"
+        },
+        "skills": {
+          "type": "string",
+          "description": "Description of the service provider's skills."
+        },
+        "portfolioUrls": {
+          "type": "array",
+          "description": "Array of URLs pointing to the service provider's portfolio.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "experienceLevel": {
+          "type": "string",
+          "description": "Experience level of the service provider."
+        },
+        "availability": {
+          "type": "string",
+          "description": "Service provider's availability for work."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp indicating when the service provider profile was created.",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Timestamp indicating when the service provider profile was last updated.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "userAccountId",
+        "skills",
+        "portfolioUrls",
+        "experienceLevel",
+        "availability",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "Offer": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Offer",
+      "type": "object",
+      "description": "Stores information about offers submitted by service providers for events.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the offer."
+        },
+        "eventID": {
+          "type": "string",
+          "description": "Reference to Event. (Relationship: Event 1:N Offer)"
+        },
+        "serviceProviderProfileId": {
+          "type": "string",
+          "description": "Reference to ServiceProviderProfile. (Relationship: ServiceProviderProfile 1:N Offer)"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the offer."
+        },
+        "price": {
+          "type": "number",
+          "description": "Price of the offer."
+        },
+        "status": {
+          "type": "string",
+          "description": "Status of the offer (e.g., 'submitted', 'accepted', 'rejected')."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp indicating when the offer was created.",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Timestamp indicating when the offer was last updated.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "eventID",
+        "serviceProviderProfileId",
+        "description",
+        "price",
+        "status",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "Review": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Review",
+      "type": "object",
+      "description": "Stores reviews given by users about events or service providers.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the review."
+        },
+        "reviewerUserAccountId": {
+          "type": "string",
+          "description": "Reference to UserAccount of the reviewer."
+        },
+        "reviewerName": {
+          "type": "string",
+          "description": "Denormalized name of the reviewer."
+        },
+        "reviewerAvatar": {
+          "type": "string",
+          "description": "Denormalized avatar URL of the reviewer."
+        },
+        "reviewedEntityId": {
+          "type": "string",
+          "description": "ID of the entity being reviewed (either UserAccount or Event)."
+        },
+        "reviewedEntityType": {
+          "type": "string",
+          "description": "Type of entity being reviewed ('user' or 'event')."
+        },
+        "rating": {
+          "type": "number",
+          "description": "Rating given by the reviewer (1-5)."
+        },
+        "comment": {
+          "type": "string",
+          "description": "Comment provided by the reviewer."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp indicating when the review was created.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "reviewerUserAccountId",
+        "reviewerName",
+        "reviewerAvatar",
+        "reviewedEntityId",
+        "reviewedEntityType",
+        "rating",
+        "comment",
+        "createdAt"
+      ]
+    },
+    "Follow": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Follow",
+      "type": "object",
+      "description": "Represents the follow relationship between users.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the follow relationship."
+        },
+        "followerUserAccountId": {
+          "type": "string",
+          "description": "Reference to UserAccount of the follower. (Relationship: UserAccount 1:N Follow (as follower))"
+        },
+        "followingUserAccountId": {
+          "type": "string",
+          "description": "Reference to UserAccount being followed. (Relationship: UserAccount 1:N Follow (as following))"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp indicating when the follow relationship was created.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "followerUserAccountId",
+        "followingUserAccountId",
+        "createdAt"
+      ]
+    },
+    "Post": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Post",
+      "type": "object",
+      "description": "Stores data for blog posts/community updates.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the post."
+        },
+        "authorUserAccountId": {
+          "type": "string",
+          "description": "Reference to the UserAccount of the author. (Relationship: UserAccount 1:N Post)"
+        },
+        "title": {
+          "type": "string",
+          "description": "Title of the post."
+        },
+        "content": {
+          "type": "string",
+          "description": "Content of the post."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp indicating when the post was created.",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Timestamp indicating when the post was last updated.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "authorUserAccountId",
+        "title",
+        "content",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "Comment": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Comment",
+      "type": "object",
+      "description": "Stores comments on various content types like posts or events.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the comment."
+        },
+        "authorId": {
+          "type": "string",
+          "description": "Reference to the UserAccount of the comment author."
+        },
+        "parentId": {
+          "type": "string",
+          "description": "Reference to the parent entity (e.g., Post or Event) the comment belongs to."
+        },
+        "parentType": {
+          "type": "string",
+          "description": "The type of the parent entity ('post' or 'event').",
+          "enum": ["post", "event"]
+        },
+        "content": {
+          "type": "string",
+          "description": "Content of the comment."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp indicating when the comment was created.",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Timestamp indicating when the comment was last updated.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "authorId",
+        "parentId",
+        "parentType",
+        "content",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "Like": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Like",
+      "type": "object",
+      "description": "Represents user likes on posts.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the like."
+        },
+        "userAccountId": {
+          "type": "string",
+          "description": "Reference to the UserAccount who liked the post. (Relationship: UserAccount 1:N Like)"
+        },
+        "postId": {
+          "type": "string",
+          "description": "Reference to the Post that was liked. (Relationship: Post 1:N Like)"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp indicating when the like was created.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "userAccountId",
+        "postId",
+        "createdAt"
+      ]
+    },
+     "Conversation": {
+      "title": "Conversation",
+      "type": "object",
+      "description": "Represents a private conversation between two or more users.",
+      "properties": {
+        "id": { "type": "string", "description": "Unique identifier for the conversation." },
+        "participantIds": {
+          "type": "array",
+          "description": "Array of UserAccount IDs participating in the conversation.",
+          "items": { "type": "string" }
+        },
+        "lastMessage": {
+          "type": "string",
+          "description": "The content of the last message sent in the conversation."
+        },
+        "lastMessageAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp of the last message."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp indicating when the conversation was last updated."
+        },
+        "unreadCounts": {
+          "type": "object",
+          "description": "Map of user IDs to their unread message count in this conversation.",
+          "additionalProperties": { "type": "number" }
+        }
+      },
+      "required": ["id", "participantIds", "lastMessageAt"]
+    },
+    "Message": {
+      "title": "Message",
+      "type": "object",
+      "description": "Represents a single message within a conversation.",
+      "properties": {
+        "id": { "type": "string", "description": "Unique identifier for the message." },
+        "conversationId": { "type": "string", "description": "Reference to the Conversation this message belongs to." },
+        "senderId": { "type": "string", "description": "UserAccount ID of the message sender." },
+        "content": { "type": "string", "description": "The text content of the message." },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the message was created."
+        }
+      },
+      "required": ["id", "conversationId", "senderId", "content", "createdAt"]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/users/{userId}",
+        "definition": {
+          "entityName": "UserAccount",
+          "schema": {
+            "$ref": "#/backend/entities/UserAccount"
+          },
+          "description": "Stores user account information. Path-based ownership for private user data.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier for the user account."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/events/{eventId}",
+        "definition": {
+          "entityName": "Event",
+          "schema": {
+            "$ref": "#/backend/entities/Event"
+          },
+          "description": "Stores events created by a user. Includes denormalized userAccountId for authorization independence.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier for the user account."
+            },
+            {
+              "name": "eventId",
+              "description": "The unique identifier for the event."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/events/{eventId}/comments/{commentId}",
+        "definition": {
+          "entityName": "Comment",
+          "schema": { "$ref": "#/backend/entities/Comment" },
+          "description": "Stores comments on a specific event.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier for the user account that owns the event."
+            },
+            {
+              "name": "eventId",
+              "description": "The unique identifier for the event."
+            },
+            {
+              "name": "commentId",
+              "description": "The unique identifier for the comment."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/serviceProviderProfiles/{profileId}",
+        "definition": {
+          "entityName": "ServiceProviderProfile",
+          "schema": {
+            "$ref": "#/backend/entities/ServiceProviderProfile"
+          },
+          "description": "Stores service provider profiles.  Accessible to all users but updatable only by the profile owner (identified by userAccountId).",
+          "params": [
+            {
+              "name": "profileId",
+              "description": "The unique identifier for the service provider profile."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/offers/{offerId}",
+        "definition": {
+          "entityName": "Offer",
+          "schema": {
+            "$ref": "#/backend/entities/Offer"
+          },
+          "description": "Stores offers submitted by service providers for events. Security rules will enforce that only the service provider can create/update their offers, and the event owner can accept/reject them.",
+          "params": [
+            {
+              "name": "offerId",
+              "description": "The unique identifier for the offer."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/reviews/{reviewId}",
+        "definition": {
+          "entityName": "Review",
+          "schema": {
+            "$ref": "#/backend/entities/Review"
+          },
+          "description": "Stores reviews given by users. Security rules will restrict creation to authenticated users.",
+          "params": [
+            {
+              "name": "reviewId",
+              "description": "The unique identifier for the review."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/follows/{followId}",
+        "definition": {
+          "entityName": "Follow",
+          "schema": {
+            "$ref": "#/backend/entities/Follow"
+          },
+          "description": "Stores follow relationships between users. Security rules ensure that only authenticated users can create follow relationships.",
+          "params": [
+            {
+              "name": "followId",
+              "description": "The unique identifier for the follow relationship."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/posts/{postId}",
+        "definition": {
+          "entityName": "Post",
+          "schema": {
+            "$ref": "#/backend/entities/Post"
+          },
+          "description": "Stores blog posts.  Posts are globally accessible but creation is restricted to authorized users.",
+          "params": [
+            {
+              "name": "postId",
+              "description": "The unique identifier for the post."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/comments/{commentId}",
+        "definition": {
+          "entityName": "Comment",
+          "schema": {
+            "$ref": "#/backend/entities/Comment"
+          },
+          "description": "Stores comments on posts.  Creation restricted to authenticated users.",
+          "params": [
+            {
+              "name": "commentId",
+              "description": "The unique identifier for the comment."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/likes/{likeId}",
+        "definition": {
+          "entityName": "Like",
+          "schema": {
+            "$ref": "#/backend/entities/Like"
+          },
+          "description": "Stores likes on posts.  Creation restricted to authenticated users.",
+          "params": [
+            {
+              "name": "likeId",
+              "description": "The unique identifier for the like."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/conversations/{conversationId}",
+        "definition": {
+          "entityName": "Conversation",
+          "schema": { "$ref": "#/backend/entities/Conversation" },
+          "description": "Stores conversation metadata. Accessible only by participants.",
+          "params": [
+            {
+              "name": "conversationId",
+              "description": "The unique identifier for the conversation."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/conversations/{conversationId}/messages/{messageId}",
+        "definition": {
+          "entityName": "Message",
+          "schema": { "$ref": "#/backend/entities/Message" },
+          "description": "Stores messages within a conversation. Accessible only by participants of the parent conversation.",
+          "params": [
+            {
+              "name": "conversationId",
+              "description": "The unique identifier for the conversation."
+            },
+            {
+              "name": "messageId",
+              "description": "The unique identifier for the message."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "The Firestore structure is designed to ensure security, scalability, and ease of debugging, adhering to the principles of Authorization Independence, Clarity of Intent, DBAC, and QAPs.  Authorization Independence is achieved through denormalization. For example, event documents, stored under `/users/{userId}/events/{eventId}`, would include denormalized user information, allowing security rules to validate ownership without additional `get()` calls. The data structure uses structural segregation, separating user-specific data (like events) and global data (like posts). Access Modeling follows consistent patterns, using path-based ownership for private data and a membership map for collaborative data (if applicable). The design incorporates explicit state modeling (using a status field where needed) and aims for a predictable schema. Security rules will primarily leverage `request.auth.uid` and path-based authorization, enhancing security and simplifying rule logic. The structure supports required QAPs through segregation. User-specific data is stored under user paths, limiting list operations to authorized users. Global collections (like posts) can have different security rules to allow public read access while restricting write access."
+  }
+}
